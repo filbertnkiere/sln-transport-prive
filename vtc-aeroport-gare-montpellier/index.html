@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://data.geopf.fr https://router.project-osrm.org https://api.web3forms.com; form-action 'self' https://api.web3forms.com; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<title>VTC aéroport Montpellier &amp; gares – forfait 35 € | SLN Transport Privé</title>
+<title>VTC aéroport &amp; gare Montpellier – forfait 35 € | SLN</title>
 <meta name="description" content="Chauffeur VTC pour l&#x27;aéroport Montpellier-Méditerranée et les gares Saint-Roch et Sud de France. Forfait aéroport 35 €, gares 25 €, 24h/24 en Tesla électrique.">
 <meta name="theme-color" content="#0A0A0B">
 <!-- Brouillon en validation : DRAFT = False dans tools/build.py au lancement -->
@@ -14,7 +14,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="SLN Transport Privé">
 <meta property="og:locale" content="fr_FR">
-<meta property="og:title" content="VTC aéroport Montpellier &amp; gares – forfait 35 € | SLN Transport Privé">
+<meta property="og:title" content="VTC aéroport &amp; gare Montpellier – forfait 35 € | SLN">
 <meta property="og:description" content="Chauffeur VTC pour l&#x27;aéroport Montpellier-Méditerranée et les gares Saint-Roch et Sud de France. Forfait aéroport 35 €, gares 25 €, 24h/24 en Tesla électrique.">
 <meta property="og:url" content="https://slnchauffeurprive.com/vtc-aeroport-gare-montpellier/">
 <meta property="og:image" content="https://slnchauffeurprive.com/img/og-image.jpg">
@@ -28,7 +28,6 @@
 <link rel="manifest" href="../site.webmanifest">
 <link rel="preload" href="../fonts/Montserrat-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../fonts/CormorantGaramond-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../css/fonts.css">
 <link rel="stylesheet" href="../css/style.css">
 <script type="application/ld+json">
 {
@@ -328,7 +327,7 @@
         <li><svg class="ic" aria-hidden="true"><use href="#i-zap"/></svg>Tesla 100 % électrique</li>
       </ul>
     </div>
-    <figure class="page-hero-media"><img src="../img/hero.webp" alt="Intérieur de Tesla de nuit, écran de navigation allumé" width="900" height="1100" decoding="async" fetchpriority="high"></figure>
+    <figure class="page-hero-media"><img src="../img/hero.webp" srcset="../img/hero-mobile.webp 900w, ../img/hero.webp 2000w" sizes="(max-width: 900px) 92vw, 440px" alt="Intérieur de Tesla de nuit, écran de navigation allumé" width="900" height="1100" decoding="async" fetchpriority="high"></figure>
   </div>
 </section>
 
@@ -336,12 +335,13 @@
   <div class="container booking-wrap" id="reserver">
     <div class="booking">
       <div class="booking-tabs" role="tablist" aria-label="Type de trajet">
-        <button role="tab" type="button" id="tab-simple" aria-selected="true" aria-controls="booking-form" data-mode="simple">Aller simple</button>
-        <button role="tab" type="button" id="tab-retour" aria-selected="false" aria-controls="booking-form" data-mode="retour" tabindex="-1">Aller-retour</button>
-        <button role="tab" type="button" id="tab-dispo" aria-selected="false" aria-controls="booking-form" data-mode="dispo" tabindex="-1">Mise à disposition</button>
+        <button role="tab" type="button" id="tab-simple" aria-selected="true" aria-controls="booking-tabpanel" data-mode="simple">Aller simple</button>
+        <button role="tab" type="button" id="tab-retour" aria-selected="false" aria-controls="booking-tabpanel" data-mode="retour" tabindex="-1">Aller-retour</button>
+        <button role="tab" type="button" id="tab-dispo" aria-selected="false" aria-controls="booking-tabpanel" data-mode="dispo" tabindex="-1">Mise à disposition</button>
       </div>
 
-      <form class="booking-panel" id="booking-form" role="tabpanel" aria-labelledby="tab-simple" novalidate>
+      <div id="booking-tabpanel" role="tabpanel" aria-labelledby="tab-simple">
+      <form class="booking-panel" id="booking-form" novalidate>
         <div class="b-grid">
           <div class="field field-addr">
             <label for="from">Lieu de départ</label>
@@ -427,6 +427,7 @@
           <p class="r-note" id="r-note">Estimation indicative TTC. Le prix définitif vous est confirmé avant la course.</p>
         </div>
       </form>
+      </div>
     </div>
   </div>
 </section>

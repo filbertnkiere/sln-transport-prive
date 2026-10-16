@@ -375,7 +375,7 @@ function setMode(m) {
     const on = t.dataset.mode === m;
     t.setAttribute("aria-selected", String(on));
     t.tabIndex = on ? 0 : -1;
-    if (on) form.setAttribute("aria-labelledby", t.id);
+    if (on) $("#booking-tabpanel").setAttribute("aria-labelledby", t.id);
   });
   $$("[data-show]", form).forEach((el) => (el.hidden = el.dataset.show !== m));
   $$("[data-hide]", form).forEach((el) => (el.hidden = el.dataset.hide === m));

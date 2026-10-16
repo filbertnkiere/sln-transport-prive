@@ -5,8 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://data.geopf.fr https://router.project-osrm.org https://api.web3forms.com; form-action 'self' https://api.web3forms.com; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<title>VTC Montpellier – Chauffeur privé 24h/24 | SLN Transport Privé</title>
-<meta name="description" content="Chauffeur VTC à Montpellier 24h/24 : aéroport (forfait 35 €), gares, entreprises, événements et longues distances en Tesla électrique. Estimez votre prix en ligne.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://data.geopf.fr https://router.project-osrm.org https://api.web3forms.com; form-action 'self' https://api.web3forms.com; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://data.geopf.fr https://router.project-osrm.org https://api.web3forms.com; form-action 'self' https://api.web3forms.com; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Chauffeur VTC Montpellier 24h/24 | SLN Transport Privé</title>
+<meta name="description" content="Chauffeur VTC à Montpellier 24h/24 : aéroport (forfait 35 €), gares, entreprises, événements, longues distances en Tesla électrique. Prix en ligne.">
 <meta name="theme-color" content="#0A0A0B">
 <!-- Brouillon en validation : DRAFT = False dans tools/build.py au lancement -->
 <meta name="robots" content="noindex, nofollow">
@@ -17,8 +21,8 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="SLN Transport Privé">
 <meta property="og:locale" content="fr_FR">
-<meta property="og:title" content="VTC Montpellier – Chauffeur privé 24h/24 | SLN Transport Privé">
-<meta property="og:description" content="Chauffeur VTC à Montpellier 24h/24 : aéroport (forfait 35 €), gares, entreprises, événements et longues distances en Tesla électrique. Estimez votre prix en ligne.">
+<meta property="og:title" content="Chauffeur VTC Montpellier 24h/24 | SLN Transport Privé">
+<meta property="og:description" content="Chauffeur VTC à Montpellier 24h/24 : aéroport (forfait 35 €), gares, entreprises, événements, longues distances en Tesla électrique. Prix en ligne.">
 <meta property="og:url" content="https://slnchauffeurprive.com/">
 <meta property="og:image" content="https://slnchauffeurprive.com/img/og-image.jpg">
 <meta property="og:image:width" content="1200">
@@ -31,7 +35,6 @@
 <link rel="manifest" href="site.webmanifest">
 <link rel="preload" href="fonts/Montserrat-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/CormorantGaramond-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/fonts.css">
 <link rel="stylesheet" href="css/style.css">
 <link rel="preload" as="image" href="img/hero-mobile.webp" media="(max-width: 900px)">
 <link rel="preload" as="image" href="img/hero.webp" media="(min-width: 901px)">
@@ -368,12 +371,13 @@
   <div class="container booking-wrap" id="reserver">
     <div class="booking">
       <div class="booking-tabs" role="tablist" aria-label="Type de trajet">
-        <button role="tab" type="button" id="tab-simple" aria-selected="true" aria-controls="booking-form" data-mode="simple">Aller simple</button>
-        <button role="tab" type="button" id="tab-retour" aria-selected="false" aria-controls="booking-form" data-mode="retour" tabindex="-1">Aller-retour</button>
-        <button role="tab" type="button" id="tab-dispo" aria-selected="false" aria-controls="booking-form" data-mode="dispo" tabindex="-1">Mise à disposition</button>
+        <button role="tab" type="button" id="tab-simple" aria-selected="true" aria-controls="booking-tabpanel" data-mode="simple">Aller simple</button>
+        <button role="tab" type="button" id="tab-retour" aria-selected="false" aria-controls="booking-tabpanel" data-mode="retour" tabindex="-1">Aller-retour</button>
+        <button role="tab" type="button" id="tab-dispo" aria-selected="false" aria-controls="booking-tabpanel" data-mode="dispo" tabindex="-1">Mise à disposition</button>
       </div>
 
-      <form class="booking-panel" id="booking-form" role="tabpanel" aria-labelledby="tab-simple" novalidate>
+      <div id="booking-tabpanel" role="tabpanel" aria-labelledby="tab-simple">
+      <form class="booking-panel" id="booking-form" novalidate>
         <div class="b-grid">
           <div class="field field-addr">
             <label for="from">Lieu de départ</label>
@@ -459,6 +463,7 @@
           <p class="r-note" id="r-note">Estimation indicative TTC. Le prix définitif vous est confirmé avant la course.</p>
         </div>
       </form>
+      </div>
     </div>
   </div>
 </section>
