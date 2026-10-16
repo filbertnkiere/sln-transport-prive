@@ -4,11 +4,11 @@
 
 /* ---------- Configuration (à compléter avec les vraies infos) ---------- */
 const CONFIG = {
-  phone: "+33600000000",          // format international, sans espaces
-  phoneLabel: "06 00 00 00 00",
-  whatsapp: "33600000000",        // sans le +
+  phone: "+33674760316",          // format international, sans espaces
+  phoneLabel: "06 74 76 03 16",
+  whatsapp: "33674760316",        // sans le + (à confirmer : même numéro que WhatsApp ?)
   email: "contact@sln-transport.fr",
-  googleReviews: "#",             // lien de la fiche Google
+  googleReviews: "https://share.google/uKCrQxwhXr0P1DarL", // fiche Google Business
   // Clé Web3Forms (créée sur web3forms.com avec l'adresse qui doit recevoir les demandes).
   // Vide = repli : le formulaire ouvre la messagerie du visiteur.
   web3formsKey: "",
