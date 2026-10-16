@@ -11,7 +11,7 @@ const CONFIG = {
   googleReviews: "https://share.google/uKCrQxwhXr0P1DarL", // fiche Google Business
   // Clé Web3Forms (créée sur web3forms.com avec l'adresse qui doit recevoir les demandes).
   // Vide = repli : le formulaire ouvre la messagerie du visiteur.
-  web3formsKey: "",
+  web3formsKey: "cd0a8048-9353-4bfa-aa36-dd8cb76a218f",
 };
 
 /* Grille tarifaire (TTC). Calcul par tranches successives. */
