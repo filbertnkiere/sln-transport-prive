@@ -440,9 +440,17 @@
         <div class="field"><label for="c-email">E-mail</label><input id="c-email" name="email" type="email" autocomplete="email"></div>
       </div>
       <div class="field"><label for="c-trip">Votre trajet</label><textarea id="c-trip" name="trip" rows="5" placeholder="Départ, destination, date, heure, nombre de passagers, bagages…" required></textarea></div>
+      <!-- Anti-spam : champ invisible, les robots le cochent -->
+      <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
       <p class="f-error" id="f-error" role="alert" hidden></p>
-      <button type="submit" class="btn btn-gold btn-block">Envoyer ma demande <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></button>
-      <p class="f-legal">Vos données servent uniquement à répondre à votre demande. Elles ne sont jamais transmises à des tiers.</p>
+      <button type="submit" class="btn btn-gold btn-block" id="f-submit"><span>Envoyer ma demande</span> <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+      <p class="f-legal">Vos données servent uniquement à répondre à votre demande. Elles sont transmises par e-mail via notre prestataire d'envoi (Web3Forms) et ne sont jamais revendues ni utilisées à d'autres fins.</p>
+      <div class="f-success" id="f-success" role="status" tabindex="-1" hidden>
+        <svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>
+        <h3>Demande envoyée</h3>
+        <p>Merci, votre demande a bien été reçue. Vous serez recontacté très rapidement pour confirmer votre trajet et son prix.</p>
+        <p class="f-success-alt">Pressé ? <a class="js-wa" href="#" target="_blank" rel="noopener">Écrivez sur WhatsApp</a> ou <a class="js-tel" href="tel:+33600000000">appelez directement</a>.</p>
+      </div>
     </form>
   </div>
 </section>

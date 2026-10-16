@@ -9,6 +9,9 @@ const CONFIG = {
   whatsapp: "33600000000",        // sans le +
   email: "contact@sln-transport.fr",
   googleReviews: "#",             // lien de la fiche Google
+  // Clé Web3Forms (créée sur web3forms.com avec l'adresse qui doit recevoir les demandes).
+  // Vide = repli : le formulaire ouvre la messagerie du visiteur.
+  web3formsKey: "",
 };
 
 /* Grille tarifaire (TTC). Calcul par tranches successives. */
@@ -57,6 +60,8 @@ const T = {
     pax: (n) => `${n} passager${n > 1 ? "s" : ""}`, sumEstimate: "Estimation du site",
     errName: "Indiquez votre nom.", errPhone: "Indiquez un numéro de téléphone.", errTrip: "Décrivez votre trajet.",
     mClient: "Client", mName: "Nom", mPhone: "Téléphone", mEmail: "E-mail", mSubject: "Demande de réservation",
+    sending: "Envoi…", send: "Envoyer ma demande",
+    errSend: "L'envoi n'a pas abouti. Réessayez, ou contactez-nous par WhatsApp ou téléphone.",
   },
   en: {
     waHello: "Hello, I would like to book a ride with SLN Transport Privé.",
@@ -79,6 +84,8 @@ const T = {
     pax: (n) => `${n} passenger${n > 1 ? "s" : ""}`, sumEstimate: "Website estimate",
     errName: "Please enter your name.", errPhone: "Please enter a phone number.", errTrip: "Please describe your trip.",
     mClient: "Client", mName: "Name", mPhone: "Phone", mEmail: "Email", mSubject: "Booking request",
+    sending: "Sending…", send: "Send my request",
+    errSend: "Your request could not be sent. Please try again, or contact us on WhatsApp or by phone.",
   },
 }[LANG];
 
@@ -488,12 +495,15 @@ $$('[data-client="pro"]').forEach((a) => a.addEventListener("click", () => {
 }));
 
 /* =========================================================
-   Formulaire de contact (envoi par e-mail en attendant un service d'envoi)
+   Formulaire de contact
+   - Avec CONFIG.web3formsKey : envoi direct, ton frère reçoit un e-mail.
+   - Sans clé : repli sur la messagerie du visiteur (mailto).
    ========================================================= */
-$("#contact-form").addEventListener("submit", (e) => {
+$("#contact-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const f = e.currentTarget;
   const err = $("#f-error");
+  const submit = $("#f-submit");
   $$("[aria-invalid]", f).forEach((el) => el.removeAttribute("aria-invalid"));
   const required = [["#c-name", T.errName], ["#c-phone", T.errPhone], ["#c-trip", T.errTrip]];
   for (const [sel, msg] of required) {
@@ -502,13 +512,59 @@ $("#contact-form").addEventListener("submit", (e) => {
   }
   err.hidden = true;
   const data = new FormData(f);
-  const body = [
-    `${T.mClient} : ${data.get("client")}${data.get("company") ? " — " + data.get("company") : ""}`,
-    `${T.mName} : ${data.get("name")}`,
-    `${T.mPhone} : ${data.get("phone")}`,
-    data.get("email") ? `${T.mEmail} : ${data.get("email")}` : null,
-    "",
-    data.get("trip"),
-  ].filter((l) => l !== null).join("\n");
-  window.location.href = `mailto:${CONFIG.email}?subject=${encodeURIComponent(T.mSubject + " — " + data.get("name"))}&body=${encodeURIComponent(body)}`;
+  const name = data.get("name").trim();
+
+  if (!CONFIG.web3formsKey) {
+    const body = [
+      `${T.mClient} : ${data.get("client")}${data.get("company") ? " — " + data.get("company") : ""}`,
+      `${T.mName} : ${name}`,
+      `${T.mPhone} : ${data.get("phone")}`,
+      data.get("email") ? `${T.mEmail} : ${data.get("email")}` : null,
+      "",
+      data.get("trip"),
+    ].filter((l) => l !== null).join("\n");
+    window.location.href = `mailto:${CONFIG.email}?subject=${encodeURIComponent(T.mSubject + " — " + name)}&body=${encodeURIComponent(body)}`;
+    return;
+  }
+
+  // Les libellés de l'e-mail reçu restent en français : c'est ton frère qui le lit
+  const payload = {
+    access_key: CONFIG.web3formsKey,
+    subject: `Nouvelle demande SLN — ${name} (${data.get("client")})`,
+    from_name: "Site SLN Transport Privé",
+    botcheck: data.get("botcheck") ? true : "",
+    "Client": data.get("client"),
+    "Nom": name,
+    "Société": data.get("company") || "—",
+    "Téléphone": data.get("phone"),
+    "E-mail": data.get("email") || "—",
+    "Trajet": data.get("trip"),
+    "Langue du site": LANG === "en" ? "Anglais" : "Français",
+  };
+  if (data.get("email")) payload.replyto = data.get("email");
+
+  submit.setAttribute("aria-busy", "true");
+  submit.disabled = true;
+  submit.querySelector("span").textContent = T.sending;
+  try {
+    const res = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify(payload),
+    });
+    const json = await res.json().catch(() => ({}));
+    if (!res.ok || !json.success) throw new Error(json.message || res.status);
+    f.reset();
+    f.classList.add("is-sent");
+    const ok = $("#f-success");
+    ok.hidden = false;
+    ok.focus();
+  } catch {
+    err.textContent = T.errSend;
+    err.hidden = false;
+  } finally {
+    submit.removeAttribute("aria-busy");
+    submit.disabled = false;
+    submit.querySelector("span").textContent = T.send;
+  }
 });

@@ -368,6 +368,14 @@ button { cursor: pointer; }
 .seg input:focus-visible + span { outline: 2px solid var(--focus); outline-offset: 2px; }
 .f-error { color: var(--danger); font-size: 14px; margin: 0; }
 .f-legal { color: var(--muted); font-size: 12.5px; margin: 0; }
+.hp { display: none !important; }
+.btn[aria-busy="true"] { opacity: .75; cursor: progress; }
+.contact-form.is-sent > :not(.f-success) { display: none; }
+.f-success { text-align: center; padding: var(--s-6) var(--s-4); outline: none; }
+.f-success > .ic { width: 56px; height: 56px; padding: 14px; border-radius: 50%; background: var(--gold-grad); color: var(--on-gold); stroke-width: 2.4; margin: 0 auto var(--s-5); display: block; }
+.f-success h3 { font-family: var(--font-display); font-size: 34px; margin-bottom: var(--s-4); }
+.f-success p { color: var(--muted); max-width: 42ch; margin: 0 auto var(--s-4); }
+.f-success-alt a { color: var(--gold-light); text-decoration: underline; text-underline-offset: 3px; }
 
 /* Pied de page */
 .site-footer { border-top: 1px solid var(--border); padding: var(--s-8) 0 var(--s-6); background: #08080A; }

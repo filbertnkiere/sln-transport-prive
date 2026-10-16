@@ -440,9 +440,17 @@
         <div class="field"><label for="c-email">Email</label><input id="c-email" name="email" type="email" autocomplete="email"></div>
       </div>
       <div class="field"><label for="c-trip">Your trip</label><textarea id="c-trip" name="trip" rows="5" placeholder="Pick-up, destination, date, time, number of passengers, luggage…" required></textarea></div>
+      <!-- Anti-spam : champ invisible, les robots le cochent -->
+      <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
       <p class="f-error" id="f-error" role="alert" hidden></p>
-      <button type="submit" class="btn btn-gold btn-block">Send my request <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></button>
-      <p class="f-legal">Your details are only used to answer your request. They are never shared with third parties.</p>
+      <button type="submit" class="btn btn-gold btn-block" id="f-submit"><span>Send my request</span> <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+      <p class="f-legal">Your details are only used to answer your request. They are sent by email through our form provider (Web3Forms) and are never sold or used for any other purpose.</p>
+      <div class="f-success" id="f-success" role="status" tabindex="-1" hidden>
+        <svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>
+        <h3>Request sent</h3>
+        <p>Thank you, your request has been received. We will get back to you very shortly to confirm your trip and its price.</p>
+        <p class="f-success-alt">In a hurry? <a class="js-wa" href="#" target="_blank" rel="noopener">Message us on WhatsApp</a> or <a class="js-tel" href="tel:+33600000000">call directly</a>.</p>
+      </div>
     </form>
   </div>
 </section>
