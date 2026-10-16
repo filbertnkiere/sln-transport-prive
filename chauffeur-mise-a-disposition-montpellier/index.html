@@ -338,7 +338,7 @@
       <div class="booking-tabs" role="tablist" aria-label="Type de trajet">
         <button role="tab" type="button" id="tab-simple" aria-selected="true" aria-controls="booking-tabpanel" data-mode="simple">Aller simple</button>
         <button role="tab" type="button" id="tab-retour" aria-selected="false" aria-controls="booking-tabpanel" data-mode="retour" tabindex="-1">Aller-retour</button>
-        <button role="tab" type="button" id="tab-dispo" aria-selected="false" aria-controls="booking-tabpanel" data-mode="dispo" tabindex="-1">Mise à disposition</button>
+        <button role="tab" type="button" id="tab-dispo" aria-selected="false" aria-controls="booking-tabpanel" data-mode="dispo" tabindex="-1">À l'heure</button>
       </div>
 
       <div id="booking-tabpanel" role="tabpanel" aria-labelledby="tab-simple">
@@ -417,6 +417,7 @@
           <div class="r-price">
             <span class="r-label">Estimation</span>
             <strong id="r-amount">—</strong>
+            <span class="r-route" id="r-route"></span>
             <span class="r-meta" id="r-meta"></span>
           </div>
           <div class="r-actions">
@@ -424,8 +425,9 @@
               <svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg>Réserver sur WhatsApp
             </a>
             <a class="btn btn-outline" id="r-form" href="../#contact">Envoyer une demande</a>
+            <a class="btn btn-outline js-tel" href="tel:+33674760316"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg>Appeler</a>
           </div>
-          <p class="r-note" id="r-note">Estimation indicative TTC. Le prix définitif vous est confirmé avant la course.</p>
+          <p class="r-note" id="r-note">Estimation TTC calculée sur la distance par la route. Le chauffeur vous répond personnellement pour confirmer la course et son prix.</p>
         </div>
       </form>
       </div>
@@ -441,7 +443,7 @@
 
 <section class="section section-alt" aria-labelledby="faq-title">
   <div class="container faq-wrap">
-    <header class="section-head reveal"><p class="eyebrow">Questions fréquentes</p><h2 id="faq-title">Bon à savoir</h2></header>
+    <header class="section-head reveal"><h2 id="faq-title">Questions fréquentes</h2></header>
     <div class="faq reveal">
 <details><summary>Quelle est la durée minimum ?</summary><p>La mise à disposition est de 2 heures minimum.</p></details>
 <details><summary>Peut-on prolonger sur place ?</summary><p>Oui, selon la disponibilité du chauffeur, chaque heure supplémentaire est facturée au tarif horaire.</p></details>
@@ -452,7 +454,7 @@
 
 <section class="section" aria-labelledby="related-title">
   <div class="container">
-    <header class="section-head reveal"><p class="eyebrow">Nos autres services</p><h2 id="related-title">Un chauffeur pour <em class="gold">chaque déplacement</em></h2></header>
+    <header class="section-head reveal"><p class="eyebrow">Nos autres services</p><h2 id="related-title">Un chauffeur pour chaque déplacement</h2></header>
     <div class="related reveal"><a class="related-card" href="../vtc-aeroport-gare-montpellier/"><span>Aéroport & gares</span><svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a><a class="related-card" href="../chauffeur-prive-entreprise-montpellier/"><span>Entreprises</span><svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a><a class="related-card" href="../chauffeur-mariage-evenement-montpellier/"><span>Événements</span><svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a><a class="related-card" href="../vtc-longue-distance-montpellier/"><span>Longues distances</span><svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
     <div class="cta-band reveal">
       <div><h2>Une question, un devis ?</h2><p>Disponible 24h/24, 7j/7 : appel, SMS, WhatsApp ou formulaire.</p></div>

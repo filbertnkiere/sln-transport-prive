@@ -53,7 +53,9 @@ const T = {
     hoursDispo: (h) => `${h} h de mise à disposition`, night: "majoration de nuit incluse",
     forfaitAirport: "Forfait aéroport", forfaitStation: "Forfait gare",
     noteLong: "Long trajet : estimation indicative TTC, à confirmer par devis personnalisé.",
-    note: "Estimation indicative TTC. Le prix définitif vous est confirmé avant la course.",
+    note: "Estimation TTC calculée sur la distance par la route. Le chauffeur vous répond personnellement pour confirmer la course et son prix.",
+    errPast: "Choisissez une heure de départ au moins 30 minutes après maintenant.",
+    errReturn: "Le retour doit avoir lieu après l'aller.",
     sumHello: "Bonjour, je souhaite réserver :", sumDispo: (h) => `Mise à disposition : ${h} h`,
     sumPickup: "Prise en charge", sumReturnTrip: "Aller-retour", sumOneWay: "Aller simple",
     sumFrom: "Départ", sumTo: "Destination", sumOn: (d, t) => `Le ${d} à ${t}`, sumBack: (d, t) => `Retour le ${d} à ${t}`,
@@ -77,7 +79,9 @@ const T = {
     hoursDispo: (h) => `${h} h chauffeur service`, night: "night rate included",
     forfaitAirport: "Airport flat rate", forfaitStation: "Station flat rate",
     noteLong: "Long-distance trip: indicative estimate incl. VAT, to be confirmed with a personalised quote.",
-    note: "Indicative estimate incl. VAT. The final price is confirmed before your ride.",
+    note: "Estimate incl. VAT, based on the actual road distance. The chauffeur replies personally to confirm the ride and its price.",
+    errPast: "Please choose a pick-up time at least 30 minutes from now.",
+    errReturn: "The return must be after the outbound trip.",
     sumHello: "Hello, I would like to book:", sumDispo: (h) => `Chauffeur service: ${h} h`,
     sumPickup: "Pick-up", sumReturnTrip: "Return trip", sumOneWay: "One way",
     sumFrom: "From", sumTo: "To", sumOn: (d, t) => `On ${d} at ${t}`, sumBack: (d, t) => `Return on ${d} at ${t}`,
@@ -117,7 +121,7 @@ function waLink(text) {
   return `https://wa.me/${CONFIG.whatsapp}${text ? "?text=" + encodeURIComponent(text) : ""}`;
 }
 $$(".js-tel").forEach((a) => (a.href = `tel:${CONFIG.phone}`));
-$$(".js-tel-label").forEach((s) => (s.textContent = CONFIG.phoneLabel));
+$$(".js-tel-label").forEach((s) => (s.textContent = LANG === "en" ? "+33 6 74 76 03 16" : CONFIG.phoneLabel));
 $$(".js-sms").forEach((a) => (a.href = `sms:${CONFIG.phone}`));
 $$(".js-wa").forEach((a) => (a.href = waLink(T.waHello)));
 $$(".js-mail").forEach((a) => (a.href = `mailto:${CONFIG.email}`));
@@ -366,6 +370,10 @@ let lastQuote = null;
   ["#date", "#date2"].forEach((s) => ($(s).min = today));
   $("#date").value = iso(d);
   $("#time").value = `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+  $("#date").addEventListener("change", () => {
+    $("#date2").min = $("#date").value;
+    if ($("#date2").value && $("#date2").value < $("#date").value) $("#date2").value = $("#date").value;
+  });
 })();
 
 function setMode(m) {
@@ -403,19 +411,22 @@ $("#swap").addEventListener("click", () => {
 function showError(msg, field) {
   errBox.textContent = msg;
   errBox.hidden = false;
-  if (field) { field.setAttribute("aria-invalid", "true"); field.focus(); }
+  if (field) { field.setAttribute("aria-invalid", "true"); field.setAttribute("aria-describedby", "b-error"); field.focus(); }
 }
 function hideResult() { result.hidden = true; errBox.hidden = true; }
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   errBox.hidden = true;
-  $$("[aria-invalid]", form).forEach((el) => el.removeAttribute("aria-invalid"));
+  $$("[aria-invalid]", form).forEach((el) => { el.removeAttribute("aria-invalid"); el.removeAttribute("aria-describedby"); });
 
   if (!fromF.input.value.trim()) return showError(T.errFrom, fromF.input);
   if (mode !== "dispo" && !toF.input.value.trim()) return showError(T.errTo, toF.input);
   if (!$("#date").value || !$("#time").value) return showError(T.errDate, $("#date"));
   if (mode === "retour" && (!$("#date2").value || !$("#time2").value)) return showError(T.errDate2, $("#date2"));
+  const depart = new Date(`${$("#date").value}T${$("#time").value}`);
+  if (depart < Date.now() + 30 * 60000) return showError(T.errPast, $("#time"));
+  if (mode === "retour" && new Date(`${$("#date2").value}T${$("#time2").value}`) <= depart) return showError(T.errReturn, $("#time2"));
 
   btn.setAttribute("aria-busy", "true");
   btn.querySelector("span").textContent = T.computing;
@@ -460,6 +471,9 @@ form.addEventListener("submit", async (e) => {
 
 function renderQuote(prix, meta, aConfirmer = false) {
   $("#r-amount").textContent = (aConfirmer ? "≈ " : "") + euro(prix);
+  const short = (p) => (p ? (p.label || p.full || "").split(" · ")[0] : "");
+  const q = lastQuote;
+  $("#r-route").textContent = q ? (q.mode === "dispo" ? short(q.a) : `${short(q.a)} → ${short(q.b)}`) : "";
   $("#r-meta").textContent = meta.filter(Boolean).join(" · ");
   $("#r-note").textContent = aConfirmer ? T.noteLong : T.note;
   $("#r-whatsapp").href = waLink(summary());
@@ -575,6 +589,11 @@ contactForm?.addEventListener("submit", async (e) => {
     const ok = $("#f-success");
     ok.hidden = false;
     ok.focus();
+    $("#f-again")?.addEventListener("click", () => {
+      f.classList.remove("is-sent");
+      ok.hidden = true;
+      $("#c-name").focus();
+    }, { once: true });
   } catch {
     err.textContent = T.errSend;
     err.hidden = false;

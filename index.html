@@ -5,10 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://data.geopf.fr https://router.project-osrm.org https://api.web3forms.com; form-action 'self' https://api.web3forms.com; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://data.geopf.fr https://router.project-osrm.org https://api.web3forms.com; form-action 'self' https://api.web3forms.com; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
-<meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://data.geopf.fr https://router.project-osrm.org https://api.web3forms.com; form-action 'self' https://api.web3forms.com; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
-<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Chauffeur VTC Montpellier 24h/24 | SLN Transport Privé</title>
 <meta name="description" content="Chauffeur VTC à Montpellier 24h/24 : aéroport (forfait 35 €), gares, entreprises, événements, longues distances en Tesla électrique. Prix en ligne.">
 <meta name="theme-color" content="#0A0A0B">
@@ -373,7 +369,7 @@
       <div class="booking-tabs" role="tablist" aria-label="Type de trajet">
         <button role="tab" type="button" id="tab-simple" aria-selected="true" aria-controls="booking-tabpanel" data-mode="simple">Aller simple</button>
         <button role="tab" type="button" id="tab-retour" aria-selected="false" aria-controls="booking-tabpanel" data-mode="retour" tabindex="-1">Aller-retour</button>
-        <button role="tab" type="button" id="tab-dispo" aria-selected="false" aria-controls="booking-tabpanel" data-mode="dispo" tabindex="-1">Mise à disposition</button>
+        <button role="tab" type="button" id="tab-dispo" aria-selected="false" aria-controls="booking-tabpanel" data-mode="dispo" tabindex="-1">À l'heure</button>
       </div>
 
       <div id="booking-tabpanel" role="tabpanel" aria-labelledby="tab-simple">
@@ -452,6 +448,7 @@
           <div class="r-price">
             <span class="r-label">Estimation</span>
             <strong id="r-amount">—</strong>
+            <span class="r-route" id="r-route"></span>
             <span class="r-meta" id="r-meta"></span>
           </div>
           <div class="r-actions">
@@ -459,22 +456,13 @@
               <svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg>Réserver sur WhatsApp
             </a>
             <a class="btn btn-outline" id="r-form" href="#contact">Envoyer une demande</a>
+            <a class="btn btn-outline js-tel" href="tel:+33674760316"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg>Appeler</a>
           </div>
-          <p class="r-note" id="r-note">Estimation indicative TTC. Le prix définitif vous est confirmé avant la course.</p>
+          <p class="r-note" id="r-note">Estimation TTC calculée sur la distance par la route. Le chauffeur vous répond personnellement pour confirmer la course et son prix.</p>
         </div>
       </form>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ============ BANDEAU CONFIANCE ============ -->
-<section class="trust" aria-label="Pourquoi nous faire confiance">
-  <div class="container trust-grid">
-    <div><strong>5,0<span>/5</span></strong><p>Note Google, 22 avis</p></div>
-    <div><strong>100<span>%</span></strong><p>Électrique, zéro émission à l'usage</p></div>
-    <div><strong>1 à 4</strong><p>Passagers, bagages compris</p></div>
-    <div><strong>24/7</strong><p>Disponible jour et nuit, chauffeur bilingue FR · EN</p></div>
   </div>
 </section>
 
@@ -483,7 +471,7 @@
   <div class="container">
     <header class="section-head reveal">
       <p class="eyebrow">Services</p>
-      <h2 id="services-title">Un chauffeur pour chaque <em class="gold">déplacement</em></h2>
+      <h2 id="services-title">Un chauffeur pour chaque déplacement</h2>
       <p>Que vous partiez en voyage, que vous receviez un client ou que vous célébriez un grand jour, le service est le même : ponctuel, discret, soigné.</p>
     </header>
 
@@ -527,7 +515,7 @@
   <div class="container split">
     <div class="split-text reveal">
       <p class="eyebrow">Entreprises</p>
-      <h2 id="pro-title">Vos déplacements professionnels, <em class="gold">sans imprévu</em></h2>
+      <h2 id="pro-title">Vos déplacements professionnels, sans imprévu</h2>
       <p>Vos collaborateurs, clients et partenaires sont accueillis avec le même niveau d'exigence que vous. Vous réservez, nous nous occupons du reste.</p>
       <ul class="checklist">
         <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg><span><b>Ponctualité</b> : le chauffeur est sur place avant l'heure prévue.</span></li>
@@ -550,8 +538,7 @@
 <section class="section" aria-labelledby="values-title">
   <div class="container">
     <header class="section-head reveal">
-      <p class="eyebrow">L'esprit SLN</p>
-      <h2 id="values-title">Quatre engagements, <em class="gold">à chaque course</em></h2>
+      <h2 id="values-title">Quatre engagements, à chaque course</h2>
     </header>
     <div class="values-grid">
       <div class="value reveal"><svg class="ic" aria-hidden="true"><use href="#i-handshake"/></svg><h3>Relationnel</h3><p>Un accueil chaleureux et attentionné, du premier message jusqu'à destination.</p></div>
@@ -571,7 +558,7 @@
     </figure>
     <div class="split-text reveal">
       <p class="eyebrow">Le véhicule</p>
-      <h2 id="car-title">Tesla Model Y <em class="gold">2024</em></h2>
+      <h2 id="car-title">Tesla Model Y 2024</h2>
       <p>Silencieuse, spacieuse et 100 % électrique : le confort d'un salon, sans bruit de moteur ni vibration. Idéal pour travailler, téléphoner ou simplement se reposer.</p>
       <ul class="specs">
         <li><svg class="ic" aria-hidden="true"><use href="#i-users"/></svg><b>4</b><span>passagers</span></li>
@@ -587,8 +574,7 @@
 <section class="section" id="tarifs" aria-labelledby="tarifs-title">
   <div class="container">
     <header class="section-head reveal">
-      <p class="eyebrow">Tarifs</p>
-      <h2 id="tarifs-title">Des prix clairs, <em class="gold">annoncés à l'avance</em></h2>
+      <h2 id="tarifs-title">Des prix clairs, annoncés à l'avance</h2>
       <p>Pas de compteur, pas de mauvaise surprise : vous connaissez le prix avant de monter.</p>
     </header>
     <div class="prices-grid">
@@ -623,8 +609,7 @@
 <section class="section" aria-labelledby="zones-title">
   <div class="container">
     <header class="section-head reveal">
-      <p class="eyebrow">Zones desservies</p>
-      <h2 id="zones-title">Basé à Montpellier, <em class="gold">partout en France</em></h2>
+      <h2 id="zones-title">Basé à Montpellier, partout en France</h2>
     </header>
     <ul class="chips reveal">
       <li>Montpellier</li><li>Aéroport Montpellier-Méditerranée</li><li>Gare Saint-Roch</li><li>Gare Sud de France</li>
@@ -638,7 +623,6 @@
 <section class="section section-alt" id="faq" aria-labelledby="faq-title">
   <div class="container faq-wrap">
     <header class="section-head reveal">
-      <p class="eyebrow">Questions fréquentes</p>
       <h2 id="faq-title">Bon à savoir</h2>
       <figure class="faq-media"><img src="img/pluie.webp" alt="Logo Tesla chromé sous la pluie" width="720" height="900" loading="lazy" decoding="async"></figure>
     </header>
@@ -671,8 +655,7 @@
 <section class="section" id="contact" aria-labelledby="contact-title">
   <div class="container contact">
     <div class="contact-direct reveal">
-      <p class="eyebrow">Contact &amp; devis</p>
-      <h2 id="contact-title">Parlons de votre <em class="gold">trajet</em></h2>
+      <h2 id="contact-title">Parlons de votre trajet</h2>
       <p>Disponible 24h/24, 7j/7. Réponse rapide, par le moyen qui vous convient.</p>
       <ul class="contact-list">
         <li><a class="js-tel" href="tel:+33674760316"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg><span><b>Appeler</b><span class="js-tel-label">06 74 76 03 16</span></span></a></li>
@@ -694,7 +677,7 @@
       </div>
       <div class="f-row">
         <div class="field"><label for="c-phone">Téléphone</label><input id="c-phone" name="phone" type="tel" autocomplete="tel" required></div>
-        <div class="field"><label for="c-email">E-mail</label><input id="c-email" name="email" type="email" autocomplete="email"></div>
+        <div class="field"><label for="c-email">E-mail <span class="opt">(facultatif)</span></label><input id="c-email" name="email" type="email" autocomplete="email"></div>
       </div>
       <div class="field"><label for="c-trip">Votre trajet</label><textarea id="c-trip" name="trip" rows="5" placeholder="Départ, destination, date, heure, nombre de passagers, bagages…" required></textarea></div>
       <!-- Anti-spam : champ invisible, les robots le cochent -->
@@ -705,8 +688,9 @@
       <div class="f-success" id="f-success" role="status" tabindex="-1" hidden>
         <svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>
         <h3>Demande envoyée</h3>
-        <p>Merci, votre demande a bien été reçue. Vous serez recontacté très rapidement pour confirmer votre trajet et son prix.</p>
+        <p>Merci, votre demande a bien été reçue. Le chauffeur vous recontacte personnellement, par téléphone ou par message, pour confirmer le trajet et le prix.</p>
         <p class="f-success-alt">Pressé ? <a class="js-wa" href="#" target="_blank" rel="noopener">Écrivez sur WhatsApp</a> ou <a class="js-tel" href="tel:+33674760316">appelez directement</a>.</p>
+        <button type="button" class="btn btn-outline" id="f-again">Faire une autre demande</button>
       </div>
     </form>
   </div>

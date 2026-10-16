@@ -5,10 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://data.geopf.fr https://router.project-osrm.org https://api.web3forms.com; form-action 'self' https://api.web3forms.com; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://data.geopf.fr https://router.project-osrm.org https://api.web3forms.com; form-action 'self' https://api.web3forms.com; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
-<meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://data.geopf.fr https://router.project-osrm.org https://api.web3forms.com; form-action 'self' https://api.web3forms.com; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
-<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Private Chauffeur Montpellier, 24/7 | SLN Transport Privé</title>
 <meta name="description" content="Private chauffeur in Montpellier, France, 24/7: airport transfers (€35 flat rate), train stations, business travel, events and long distance by Tesla.">
 <meta name="theme-color" content="#0A0A0B">
@@ -296,7 +292,7 @@
         <a href="./" lang="en" hreflang="en" aria-current="true">EN</a>
       </div>
       <a class="btn btn-outline btn-sm js-tel" href="tel:+33674760316">
-        <svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg><span class="js-tel-label">06 74 76 03 16</span>
+        <svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg><span class="js-tel-label">+33 6 74 76 03 16</span>
       </a>
       <button class="menu-toggle" type="button" aria-controls="main-nav" aria-expanded="false" aria-label="Open menu">
         <svg class="ic" aria-hidden="true"><use href="#i-menu"/></svg>
@@ -407,6 +403,7 @@
           <div class="r-price">
             <span class="r-label">Estimate</span>
             <strong id="r-amount">—</strong>
+            <span class="r-route" id="r-route"></span>
             <span class="r-meta" id="r-meta"></span>
           </div>
           <div class="r-actions">
@@ -414,22 +411,13 @@
               <svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg>Book on WhatsApp
             </a>
             <a class="btn btn-outline" id="r-form" href="#contact">Send a request</a>
+            <a class="btn btn-outline js-tel" href="tel:+33674760316"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg>Call</a>
           </div>
-          <p class="r-note" id="r-note">Indicative estimate incl. VAT. The final price is confirmed before your ride.</p>
+          <p class="r-note" id="r-note">Estimate incl. VAT, based on the actual road distance. The chauffeur replies personally to confirm the ride and its price.</p>
         </div>
       </form>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ============ BANDEAU CONFIANCE ============ -->
-<section class="trust" aria-label="Why trust us">
-  <div class="container trust-grid">
-    <div><strong>5.0<span>/5</span></strong><p>Google rating, 22 reviews</p></div>
-    <div><strong>100<span>%</span></strong><p>Electric, zero tailpipe emissions</p></div>
-    <div><strong>1 to 4</strong><p>Passengers, luggage included</p></div>
-    <div><strong>24/7</strong><p>Available day and night, bilingual chauffeur FR · EN</p></div>
   </div>
 </section>
 
@@ -438,7 +426,7 @@
   <div class="container">
     <header class="section-head reveal">
       <p class="eyebrow">Services</p>
-      <h2 id="services-title">A chauffeur for <em class="gold">every journey</em></h2>
+      <h2 id="services-title">A chauffeur for every journey</h2>
       <p>Whether you are catching a flight, welcoming a client or celebrating a big day, the service is the same: punctual, discreet and attentive.</p>
     </header>
 
@@ -482,7 +470,7 @@
   <div class="container split">
     <div class="split-text reveal">
       <p class="eyebrow">Business</p>
-      <h2 id="pro-title">Business travel, <em class="gold">without surprises</em></h2>
+      <h2 id="pro-title">Business travel, without surprises</h2>
       <p>Your colleagues, clients and partners are looked after to the same standard you expect. You book, we take care of the rest.</p>
       <ul class="checklist">
         <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg><span><b>Punctuality</b>: your chauffeur arrives before the scheduled time.</span></li>
@@ -505,8 +493,7 @@
 <section class="section" aria-labelledby="values-title">
   <div class="container">
     <header class="section-head reveal">
-      <p class="eyebrow">The SLN way</p>
-      <h2 id="values-title">Four commitments, <em class="gold">on every ride</em></h2>
+      <h2 id="values-title">Four commitments, on every ride</h2>
     </header>
     <div class="values-grid">
       <div class="value reveal"><svg class="ic" aria-hidden="true"><use href="#i-handshake"/></svg><h3>Warm service</h3><p>A friendly, attentive welcome, from your first message to your destination.</p></div>
@@ -526,7 +513,7 @@
     </figure>
     <div class="split-text reveal">
       <p class="eyebrow">The vehicle</p>
-      <h2 id="car-title">Tesla Model Y <em class="gold">2024</em></h2>
+      <h2 id="car-title">Tesla Model Y 2024</h2>
       <p>Quiet, spacious and 100% electric: lounge-like comfort with no engine noise or vibration. Ideal for working, taking calls or simply resting.</p>
       <ul class="specs">
         <li><svg class="ic" aria-hidden="true"><use href="#i-users"/></svg><b>4</b><span>passengers</span></li>
@@ -542,8 +529,7 @@
 <section class="section" id="tarifs" aria-labelledby="tarifs-title">
   <div class="container">
     <header class="section-head reveal">
-      <p class="eyebrow">Prices</p>
-      <h2 id="tarifs-title">Clear prices, <em class="gold">agreed in advance</em></h2>
+      <h2 id="tarifs-title">Clear prices, agreed in advance</h2>
       <p>No meter, no nasty surprises: you know the price before you get in.</p>
     </header>
     <div class="prices-grid">
@@ -578,8 +564,7 @@
 <section class="section" aria-labelledby="zones-title">
   <div class="container">
     <header class="section-head reveal">
-      <p class="eyebrow">Areas served</p>
-      <h2 id="zones-title">Based in Montpellier, <em class="gold">anywhere in France</em></h2>
+      <h2 id="zones-title">Based in Montpellier, anywhere in France</h2>
     </header>
     <ul class="chips reveal">
       <li>Montpellier</li><li>Montpellier-Méditerranée Airport</li><li>Saint-Roch station</li><li>Sud de France station</li>
@@ -593,7 +578,6 @@
 <section class="section section-alt" id="faq" aria-labelledby="faq-title">
   <div class="container faq-wrap">
     <header class="section-head reveal">
-      <p class="eyebrow">FAQ</p>
       <h2 id="faq-title">Good to know</h2>
       <figure class="faq-media"><img src="../img/pluie.webp" alt="Chrome Tesla badge in the rain" width="720" height="900" loading="lazy" decoding="async"></figure>
     </header>
@@ -626,11 +610,10 @@
 <section class="section" id="contact" aria-labelledby="contact-title">
   <div class="container contact">
     <div class="contact-direct reveal">
-      <p class="eyebrow">Contact &amp; quotes</p>
-      <h2 id="contact-title">Tell us about <em class="gold">your trip</em></h2>
+      <h2 id="contact-title">Tell us about your trip</h2>
       <p>Available 24/7. Quick reply, through whichever channel suits you.</p>
       <ul class="contact-list">
-        <li><a class="js-tel" href="tel:+33674760316"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg><span><b>Call</b><span class="js-tel-label">06 74 76 03 16</span></span></a></li>
+        <li><a class="js-tel" href="tel:+33674760316"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg><span><b>Call</b><span class="js-tel-label">+33 6 74 76 03 16</span></span></a></li>
         <li><a class="js-wa" href="#" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg><span><b>WhatsApp</b>Quick reply</span></a></li>
         <li><a class="js-sms" href="sms:+33674760316"><svg class="ic" aria-hidden="true"><use href="#i-sms"/></svg><span><b>Text</b>Send a message</span></a></li>
         <li><a class="js-mail" href="mailto:slntransportprive@gmail.com"><svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg><span><b>Email</b><span class="js-mail-label">slntransportprive@gmail.com</span></span></a></li>
@@ -649,7 +632,7 @@
       </div>
       <div class="f-row">
         <div class="field"><label for="c-phone">Phone</label><input id="c-phone" name="phone" type="tel" autocomplete="tel" required></div>
-        <div class="field"><label for="c-email">Email</label><input id="c-email" name="email" type="email" autocomplete="email"></div>
+        <div class="field"><label for="c-email">Email <span class="opt">(optional)</span></label><input id="c-email" name="email" type="email" autocomplete="email"></div>
       </div>
       <div class="field"><label for="c-trip">Your trip</label><textarea id="c-trip" name="trip" rows="5" placeholder="Pick-up, destination, date, time, number of passengers, luggage…" required></textarea></div>
       <!-- Anti-spam : champ invisible, les robots le cochent -->
@@ -660,8 +643,9 @@
       <div class="f-success" id="f-success" role="status" tabindex="-1" hidden>
         <svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>
         <h3>Request sent</h3>
-        <p>Thank you, your request has been received. We will get back to you very shortly to confirm your trip and its price.</p>
+        <p>Thank you, your request has been received. The chauffeur will contact you personally, by phone or message, to confirm the trip and the price.</p>
         <p class="f-success-alt">In a hurry? <a class="js-wa" href="#" target="_blank" rel="noopener">Message us on WhatsApp</a> or <a class="js-tel" href="tel:+33674760316">call directly</a>.</p>
+        <button type="button" class="btn btn-outline" id="f-again">Send another request</button>
       </div>
     </form>
   </div>
@@ -675,7 +659,7 @@
     <div>
       <a href="../" class="brand"><span class="brand-mark">SLN</span><span class="brand-sub">Transport Privé</span></a>
       <p>Private chauffeur in Montpellier, 24/7. Airport, train stations, business travel, events and long distance.</p>
-      <p><a class="js-tel" href="tel:+33674760316">06 74 76 03 16</a> · <a href="https://share.google/uKCrQxwhXr0P1DarL" target="_blank" rel="noopener">Google ★ 5,0</a></p>
+      <p><a class="js-tel" href="tel:+33674760316">+33 6 74 76 03 16</a> · <a href="https://share.google/uKCrQxwhXr0P1DarL" target="_blank" rel="noopener">Google ★ 5,0</a></p>
     </div>
     <nav aria-label="Services">
       <p class="foot-title">Services</p>
