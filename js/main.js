@@ -345,6 +345,7 @@ function prixDispo(hours, time) {
 /* =========================================================
    Module de réservation
    ========================================================= */
+if ($(".booking")) {
 const booking = $(".booking");
 const form = $("#booking-form");
 const fromF = new AddressField($("#from"));
@@ -485,9 +486,17 @@ function summary() {
 
 /* « Envoyer une demande » : pré-remplit le formulaire de contact */
 $("#r-form").addEventListener("click", () => {
-  $("#c-trip").value = summary().split("\n").slice(1).join("\n");
-  setTimeout(() => $("#c-name").focus({ preventScroll: true }), 600);
+  const txt = summary().split("\n").slice(1).join("\n");
+  const trip = $("#c-trip");
+  if (trip) {
+    trip.value = txt;
+    setTimeout(() => $("#c-name").focus({ preventScroll: true }), 600);
+  } else {
+    // Page service : le formulaire est sur l'accueil, on lui transmet le trajet
+    try { sessionStorage.setItem("sln-trip", txt); } catch {}
+  }
 });
+}
 
 /* Bouton « Demander un devis entreprise » : coche « Entreprise » */
 $$('[data-client="pro"]').forEach((a) => a.addEventListener("click", () => {
@@ -499,7 +508,14 @@ $$('[data-client="pro"]').forEach((a) => a.addEventListener("click", () => {
    - Avec CONFIG.web3formsKey : envoi direct, ton frère reçoit un e-mail.
    - Sans clé : repli sur la messagerie du visiteur (mailto).
    ========================================================= */
-$("#contact-form").addEventListener("submit", async (e) => {
+const contactForm = $("#contact-form");
+if (contactForm) {
+  try {
+    const saved = sessionStorage.getItem("sln-trip");
+    if (saved) { $("#c-trip").value = saved; sessionStorage.removeItem("sln-trip"); }
+  } catch {}
+}
+contactForm?.addEventListener("submit", async (e) => {
   e.preventDefault();
   const f = e.currentTarget;
   const err = $("#f-error");
