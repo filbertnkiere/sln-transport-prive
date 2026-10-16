@@ -444,7 +444,10 @@
 
         <p class="b-error" id="b-error" role="alert" hidden></p>
 
-        <div class="b-result" id="b-result" aria-live="polite" hidden>
+        <p class="sr-only" id="b-live" role="status" aria-live="polite"></p>
+
+        <div class="b-result" id="b-result">
+          <div class="b-result-inner">
           <div class="r-price">
             <span class="r-label">Estimation</span>
             <strong id="r-amount">—</strong>
@@ -459,6 +462,7 @@
             <a class="btn btn-outline js-tel" href="tel:+33674760316"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg>Appeler</a>
           </div>
           <p class="r-note" id="r-note">Estimation TTC calculée sur la distance par la route. Le chauffeur vous répond personnellement pour confirmer la course et son prix.</p>
+          </div>
         </div>
       </form>
       </div>

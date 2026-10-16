@@ -54,6 +54,7 @@ const T = {
     forfaitAirport: "Forfait aéroport", forfaitStation: "Forfait gare",
     noteLong: "Long trajet : estimation indicative TTC, à confirmer par devis personnalisé.",
     note: "Estimation TTC calculée sur la distance par la route. Le chauffeur vous répond personnellement pour confirmer la course et son prix.",
+    estimateLabel: "Estimation",
     errPast: "Choisissez une heure de départ au moins 30 minutes après maintenant.",
     errReturn: "Le retour doit avoir lieu après l'aller.",
     sumHello: "Bonjour, je souhaite réserver :", sumDispo: (h) => `Mise à disposition : ${h} h`,
@@ -80,6 +81,7 @@ const T = {
     forfaitAirport: "Airport flat rate", forfaitStation: "Station flat rate",
     noteLong: "Long-distance trip: indicative estimate incl. VAT, to be confirmed with a personalised quote.",
     note: "Estimate incl. VAT, based on the actual road distance. The chauffeur replies personally to confirm the ride and its price.",
+    estimateLabel: "Estimate",
     errPast: "Please choose a pick-up time at least 30 minutes from now.",
     errReturn: "The return must be after the outbound trip.",
     sumHello: "Hello, I would like to book:", sumDispo: (h) => `Chauffeur service: ${h} h`,
@@ -150,10 +152,11 @@ document.addEventListener("keydown", (e) => { if (e.key === "Escape" && nav.clas
 
 /* ---------- Apparition au défilement ---------- */
 if ("IntersectionObserver" in window && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  // Les éléments se révèlent un peu AVANT d'entrer à l'écran : jamais de zone vide en défilement rapide
   const io = new IntersectionObserver((entries) => {
     entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add("is-in"); io.unobserve(en.target); } });
-  }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
-  $$(".reveal").forEach((el, i) => { el.style.transitionDelay = `${(i % 4) * 60}ms`; io.observe(el); });
+  }, { rootMargin: "0px 0px 15% 0px", threshold: 0 });
+  $$(".reveal").forEach((el, i) => { el.style.transitionDelay = `${(i % 2) * 40}ms`; io.observe(el); });
 } else {
   $$(".reveal").forEach((el) => el.classList.add("is-in"));
 }
@@ -170,7 +173,7 @@ class AddressField {
     this.selected = null;
     this.controller = null;
 
-    this.search = debounce(this.search.bind(this), 220);
+    this.fetchRemote = debounce(this.fetchRemote.bind(this), 140);
     input.addEventListener("input", () => {
       this.selected = null;
       input.removeAttribute("aria-invalid");
@@ -185,18 +188,27 @@ class AddressField {
     });
   }
 
-  async search(q) {
+  /* Réponse immédiate : les lieux clés s'affichent à la frappe, sans attente */
+  search(q) {
     this.lastQuery = q;
-    const words = norm(q).split(/[\s,'-]+/).filter(Boolean);
-    const local = q ? LIEUX.filter((l) => { const h = norm(l.search); return words.every((w) => h.includes(w)); }) : LIEUX.slice(0, 3);
-    if (q.length < 3) { this.render(local); return; }
-    this.render(local, true);
+    this.words = norm(q).split(/[\s,'-]+/).filter(Boolean);
+    this.local = q ? LIEUX.filter((l) => { const h = norm(l.search); return this.words.every((w) => h.includes(w)); }) : LIEUX.slice(0, 3);
+    if (q.length < 3) { this.controller?.abort(); this.render(this.local); return; }
+    this.render(this.local, true);
+    this.fetchRemote(q);
+  }
+
+  /* Seul l'appel réseau est différé (le temps de finir la frappe) */
+  async fetchRemote(q) {
+    if (q !== this.lastQuery) return;
+    const local = this.local, words = this.words;
     try {
       this.controller?.abort();
       this.controller = new AbortController();
       const url = `https://data.geopf.fr/geocodage/search?q=${encodeURIComponent(q)}&limit=6&autocomplete=1&lat=43.61&lon=3.88`;
       const res = await fetch(url, { signal: this.controller.signal });
       const data = await res.json();
+      if (q !== this.lastQuery) return;
       const remote = (data.features || []).map((f) => ({
         label: f.properties.name && f.properties.type !== "municipality" ? f.properties.name : f.properties.label,
         sub: f.properties.type === "municipality" ? f.properties.context : `${f.properties.postcode || ""} ${f.properties.city || ""}`.trim(),
@@ -212,7 +224,7 @@ class AddressField {
       const explicit = local.length > 0 && words.some((w) => w.length >= 3 && KEYS.some((k) => k.startsWith(w) || w.startsWith(k)));
       this.render((explicit ? [...local, ...remote] : [...remote.slice(0, 4), ...local, ...remote.slice(4)]).slice(0, 8));
     } catch (err) {
-      if (err.name !== "AbortError") this.render(local);
+      if (err.name !== "AbortError" && q === this.lastQuery) this.render(local);
     }
   }
 
@@ -358,6 +370,9 @@ const tabs = $$('[role="tab"]', booking);
 const btn = $("#estimate-btn");
 const errBox = $("#b-error");
 const result = $("#b-result");
+const live = $("#b-live");
+const openResult = (on) => { result.classList.toggle("is-open", on); result.inert = !on; };
+openResult(false);
 let mode = "simple";
 let lastQuote = null;
 
@@ -413,7 +428,30 @@ function showError(msg, field) {
   errBox.hidden = false;
   if (field) { field.setAttribute("aria-invalid", "true"); field.setAttribute("aria-describedby", "b-error"); field.focus(); }
 }
-function hideResult() { result.hidden = true; errBox.hidden = true; }
+function hideResult() { openResult(false); errBox.hidden = true; }
+
+/* Contrôle des horaires dès qu'on modifie un champ ; renvoie le message d'erreur ou null */
+function timingProblem() {
+  const d = $("#date").value, t = $("#time").value;
+  if (d && t && new Date(`${d}T${t}`) < Date.now() + 30 * 60000) return [T.errPast, $("#time")];
+  if (mode === "retour" && d && t && $("#date2").value && $("#time2").value &&
+      new Date(`${$("#date2").value}T${$("#time2").value}`) <= new Date(`${d}T${t}`)) return [T.errReturn, $("#time2")];
+  return null;
+}
+function liveTimingCheck() {
+  $$("[aria-invalid]", form).filter((el) => ["date", "time", "date2", "time2"].includes(el.id))
+    .forEach((el) => { el.removeAttribute("aria-invalid"); el.removeAttribute("aria-describedby"); });
+  const p = timingProblem();
+  if (p) {
+    errBox.textContent = p[0]; errBox.hidden = false;
+    p[1].setAttribute("aria-invalid", "true"); p[1].setAttribute("aria-describedby", "b-error");
+  } else if (!errBox.hidden && [T.errPast, T.errReturn].includes(errBox.textContent)) {
+    errBox.hidden = true;
+  }
+}
+["date", "time", "date2", "time2"].forEach((id) => $("#" + id).addEventListener("change", () => { liveTimingCheck(); openResult(false); }));
+$("#hours").addEventListener("change", () => openResult(false));
+[fromF, toF].forEach((f) => f.input.addEventListener("input", () => openResult(false)));
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -424,9 +462,8 @@ form.addEventListener("submit", async (e) => {
   if (mode !== "dispo" && !toF.input.value.trim()) return showError(T.errTo, toF.input);
   if (!$("#date").value || !$("#time").value) return showError(T.errDate, $("#date"));
   if (mode === "retour" && (!$("#date2").value || !$("#time2").value)) return showError(T.errDate2, $("#date2"));
-  const depart = new Date(`${$("#date").value}T${$("#time").value}`);
-  if (depart < Date.now() + 30 * 60000) return showError(T.errPast, $("#time"));
-  if (mode === "retour" && new Date(`${$("#date2").value}T${$("#time2").value}`) <= depart) return showError(T.errReturn, $("#time2"));
+  const problem = timingProblem();
+  if (problem) return showError(problem[0], problem[1]);
 
   btn.setAttribute("aria-busy", "true");
   btn.querySelector("span").textContent = T.computing;
@@ -477,7 +514,8 @@ function renderQuote(prix, meta, aConfirmer = false) {
   $("#r-meta").textContent = meta.filter(Boolean).join(" · ");
   $("#r-note").textContent = aConfirmer ? T.noteLong : T.note;
   $("#r-whatsapp").href = waLink(summary());
-  result.hidden = false;
+  openResult(true);
+  if (live) live.textContent = `${T.estimateLabel} : ${$("#r-amount").textContent}. ${$("#r-route").textContent} ${$("#r-meta").textContent}`.trim();
 }
 
 function summary() {
